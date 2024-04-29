@@ -29,6 +29,8 @@ public:
     void pawnPromotion(int x,int y,Colour col);
     void writeToFile();
     void loadFromFile();
+    void writeToFile2(Colour turn);
+    void loadFromFile2(char &);
 
 };
 

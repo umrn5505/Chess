@@ -268,5 +268,120 @@ void Board::loadFromFile() {
     }
 }
 
+void Board::writeToFile2(Colour t) {
+    ofstream wrt("../board2.txt", ios::trunc);
+    for (int i = 0; i < 8; i++)
+    {
+        for (int j = 0; j < 8; j++)
+        {
+            if (Bs[i][j] != nullptr)
+            {
+                if (Bs[i][j]->getChar() == 'K') {
+                    wrt << 'K';
+                    wrt << Bs[i][j]->getMoves();
+                }
+                else if (Bs[i][j]->getChar() == 'k') {
+                    wrt << 'k';
+                    wrt << Bs[i][j]->getMoves();
+                }
+                else if (Bs[i][j]->getChar() == 'R') {
+                    wrt << 'R';
+                    wrt << Bs[i][j]->getMoves();
+                }
+                else if (Bs[i][j]->getChar() == 'r') {
+                    wrt << 'r';
+                    wrt << Bs[i][j]->getMoves();
+                }
+                else if (Bs[i][j]->getChar() == 'P') {
+                    wrt << 'P';
+                    wrt << Bs[i][j]->getMoves();
+                }
+                else if (Bs[i][j]->getChar() == 'p') {
+                    wrt << 'p';
+                    wrt << Bs[i][j]->getMoves();
+                }
+                else if (Bs[i][j]->getChar() == 'Q') {
+                    wrt << 'Q';
+                    wrt << Bs[i][j]->getMoves();
+                }
+                else if (Bs[i][j]->getChar() == 'q') {
+                    wrt << 'q';
+                    wrt << Bs[i][j]->getMoves();
+                }
+                else if (Bs[i][j]->getChar() == 'B') {
+                    wrt << 'B';
+                    wrt << Bs[i][j]->getMoves();
+                }
+                else if (Bs[i][j]->getChar() == 'b') {
+                    wrt << 'b';
+                    wrt << Bs[i][j]->getMoves();
+                }
+                else if (Bs[i][j]->getChar() == 'H') {
+                    wrt << 'H';
+                    wrt << Bs[i][j]->getMoves();
+                }
+                else if (Bs[i][j]->getChar() == 'h') {
+                    wrt << 'h';
+                    wrt << Bs[i][j]->getMoves();
+                }
+            } else {
+                wrt << 'N';
+            }
+        }
+    }
+    if(t == White)
+        wrt << 'W';
+    else
+        wrt << 'A';
+}
+
+void Board::loadFromFile2(char& col) {
+    ifstream rdr("../board2.txt");
+    char ch;
+    for(int i = 0;i< 8;i++)
+    {
+        for(int j = 0;j <8 ;j++)
+        {
+            rdr >> ch;
+            int mv;
+            if(ch != 'N')
+            {
+
+                rdr >> mv;
+                if(mv > 0){ mv--; }
+            }
+            Bs[i][j] = nullptr;
+            if (ch == 'K') {
+                Bs[i][j] = new King(i, j, this, White, 'K', mv);
+            } else if (ch == 'k') {
+                Bs[i][j] = new King(i, j, this, Black, 'k', mv);
+            } else if (ch == 'R') {
+                Bs[i][j] = new Rook(i, j, this, White, 'R', mv);
+            } else if (ch == 'r') {
+                Bs[i][j] = new Rook(i, j, this, Black, 'r', mv);
+            } else if (ch == 'P') {
+                Bs[i][j] = new Pawn(i, j, this, White, 'P', mv);
+            } else if (ch == 'p') {
+                Bs[i][j] = new Pawn(i, j, this, Black, 'p', mv);
+            } else if (ch == 'Q') {
+                Bs[i][j] = new Queen(i, j, this, White, 'Q', mv);
+            } else if (ch == 'q') {
+                Bs[i][j] = new Queen(i, j, this, Black, 'q', mv);
+            } else if (ch == 'B') {
+                Bs[i][j] = new Bishop(i, j, this, White, 'B', mv);
+            } else if (ch == 'b') {
+                Bs[i][j] = new Bishop(i, j, this, Black, 'b', mv);
+            } else if (ch == 'H') {
+                Bs[i][j] = new Knight(i, j, this, White, 'H', mv);
+            } else if (ch == 'h') {
+                Bs[i][j] = new Knight(i, j, this, Black, 'h', mv);
+            } else if (ch == 'N'){
+                Bs[i][j] = nullptr;
+            }
+        }
+    }
+    rdr >> col;
+}
+
 
 

@@ -29,9 +29,9 @@ bool Pawn::isLegal(int er, int ec) {
         return true;
     else if ((colour == White) && (dr == 1) && (isVerticalMove(_x, _y, er, ec) && isVerticalClear(_x, _y, er, ec, _b)) && !_b->isPawnKill(er,ec,colour))
         return true;
-    else if((colour == Black) && (dr == -1 && dc == -1 || dc == 1) && isDiagonalClear(_x,_y,er,ec,_b) && isDiagonalMove(_x,_y,er,ec) && _b->isPawnKill(er,ec,colour))
+    else if((colour == Black) && (dr == -1 )&& (dc == -1 || dc == 1) && isDiagonalClear(_x,_y,er,ec,_b) && isDiagonalMove(_x,_y,er,ec) && _b->isPawnKill(er,ec,colour))
         return true;
-    else if((colour == White) && (dr == 1 && dc == 1 || dc == -1) && isDiagonalClear(_x,_y,er,ec,_b) && isDiagonalMove(_x,_y,er,ec) && _b->isPawnKill(er,ec,colour))
+    else if((colour == White) && (dr == 1 ) && (dc == 1 || dc == -1) && isDiagonalClear(_x,_y,er,ec,_b) && isDiagonalMove(_x,_y,er,ec) && _b->isPawnKill(er,ec,colour))
         return true;
     else
         return false;

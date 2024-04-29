@@ -11,7 +11,9 @@ bool Chess::checkMove() {
 }
 
 Chess::Chess() {
-    cout << "If you want to start a new game enter 1 or if you want to resume old game type 2 and one more thing you can always UNDO by typing wrong starting index : ";
+    turn = Black;
+    cout << "If you want to start a new game enter 1 or if you want to resume old"
+            " game type 2 and one more thing you can always UNDO by typing wrong starting index : ";
     int a;
     do {
         cin >> a;
@@ -22,14 +24,16 @@ Chess::Chess() {
         }
         else if(a == 2)
         {
-            B.loadFromFile();
+            char tu;
+            B.loadFromFile2(tu);
+            if(tu == 'W') { changeTurn(); }
             break;
         }
         else
             cout << "invalid input";
 
     }while(true);
-    turn = Black;
+
 }
 
 void Chess::changeTurn() {
@@ -95,6 +99,7 @@ void Chess::play() {
         {
             Castling();
         }
+        B.writeToFile2(turn);
         if (checkMate())
         {
             B.printBoard();
