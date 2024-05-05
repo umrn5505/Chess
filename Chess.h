@@ -5,19 +5,25 @@
 #include "Board.h"
 #include "Utility.h"
 #include "Piece.h"
+#include <SFML/Graphics.hpp>
+#include <vector>
+using namespace std;
+
+struct pos
+{
+    int x, y,xx,yy;
+    Colour t;
+};
 
 class Chess {
 private:
+
+    vector <pos> moves_history;
     Board B;
+    pos in{};
     Colour turn;
     int sx,sy,ex,ey;
     bool Hi[8][8]{};
-public:
-    Chess();
-    void startGame();
-    void changeTurn();
-    bool checkMove();
-    void play();
     bool isKill();
     void loadHighPath();
     void updateBoard();
@@ -32,6 +38,16 @@ public:
     void Castling();
     bool callUndo();
     bool isStalemate();
+    void startGame();
+    void changeTurn();
+    bool checkMove();
+    void printMovesHistory();
+    void showcheckMate();
+public:
+    Chess();
+    void play();
+
+
 };
 
 #endif //CHESS_CHESS_H

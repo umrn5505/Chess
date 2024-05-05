@@ -4,19 +4,21 @@
 
 #include "Bishop.h"
 #include <iostream>
+
 using namespace std;
 
-Bishop::Bishop(int x, int y, Board *b, Colour col,char sym,int mv) : Piece(x, y, b, col,sym,mv) {}
+Bishop::Bishop(int x, int y, Board *b, Colour col, char sym, int mv) : Piece(x, y, b, col, sym, mv) {}
 
 void Bishop::print() {
-if(colour == White)
-    cout << "\u265D";
-else
-    cout << "\u2657";
+    if (colour == White) {
+        cout << "\u265D";
+    } else {
+        cout << "\u2657";
+    }
 }
 
 bool Bishop::isLegal(int er, int ec) {
-    return (isDiagonalMove(_x,_y,er,ec) && isDiagonalClear(_x,_y,er,ec,_b));
+    return (isDiagonalMove(_x, _y, er, ec) && isDiagonalClear(_x, _y, er, ec, _b));
 }
 
 Colour Bishop::getCol() {
@@ -32,6 +34,6 @@ int Bishop::getMoves() {
 }
 
 void Bishop::setMoves() {
-moveCounter++;
+    moveCounter++;
 }
 

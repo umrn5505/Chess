@@ -1,7 +1,10 @@
 #include "Chess.h"
 #include<iostream>
-using namespace std;
+#include <thread>
+#include <chrono>
 
+using namespace std;
+#include <SFML/Graphics.hpp>
 void Chess::startGame() {
     B.InitializeBoard();
 }
@@ -55,9 +58,14 @@ void Chess::play() {
         {
             B.pawnPromotion(px,py,turn);
         }
+        B.printBoard();
+        if(checkMate())
+        {
+            cout << "CheckMate!";
+            exit(0);
+        }
         changeTurn();
         clearScreen();
-        B.printBoard();
         if (turn == White)
             cout << "White\n";
         else
@@ -73,12 +81,29 @@ void Chess::play() {
                     B.loadFromFile();
                     B.printBoard();
                     changeTurn();
+                    moves_history.pop_back();
+                    if (turn == White)
+                        cout << "White\n";
+                    else
+                        cout << "Black\n";
                 }
             } while (!checkSrc());
             loadHighPath();
             updateBoard();
             cout << "Enter ending index: ";
             cin >> ex >> ey;
+            if(!checkDest())
+            {
+                char t;
+                B.loadFromFile2(t);
+                changeTurn();
+                B.printBoard();
+                moves_history.push_back(in);
+                if (turn == White)
+                    cout << "White\n";
+                else
+                    cout << "Black\n";
+            }
         } while (!checkDest());
         while (selfCheck(sx, sy, ex, ey)) {
             cout << "Your in check\n";
@@ -89,14 +114,23 @@ void Chess::play() {
         }
         B.writeToFile();
         if (turn == B.pieceAt(sx, sy)->getCol()  && checkMove() && (B.pieceAt(ex, ey) == nullptr || isKill())) {
-            B.move(sx, sy, ex, ey);
-        }
-        else if (turn ==  B.pieceAt(sx, sy)->getCol() && checkMove() && B.pieceAt(ex, ey) == nullptr ||
-                 isKill()) {
+
+            in.x = sx;
+            in.y = sy;
+            in.xx = ex;
+            in.yy = ey;
+            in.t = turn;
+            moves_history.push_back(in);
             B.move(sx, sy, ex, ey);
         }
         else if(canCastle())
         {
+            in.x = sx;
+            in.y = sy;
+            in.xx = ex;
+            in.yy = ey;
+            in.t = turn;
+            moves_history.push_back(in);
             Castling();
         }
         B.writeToFile2(turn);
@@ -104,6 +138,8 @@ void Chess::play() {
         {
             B.printBoard();
             cout << "Checkmate!" << endl;
+            printMovesHistory();
+            showcheckMate();
         }
     }while(!checkMate() && !isStalemate());
 }
@@ -367,6 +403,31 @@ bool Chess::isStalemate() {
     return true;
 }
 
+void Chess::printMovesHistory() {
+    int i = 1;
+    cout << "Moves History\n";
+for(auto &moves: moves_history)
+{
+    cout << i++ << ". "<< moves.x << "," << moves.y << " to " << moves.xx << "," << moves.yy << " for ";
+    if(moves.t == Black)
+        cout << "Black.\n";
+    else
+        cout << "White.\n";
+}
+}
+
+void Chess::showcheckMate() {
+    B.deleteBoard();
+B.InitializeBoard();
+for(auto &a:moves_history)
+{
+    B.move(a.x,a.y,a.xx,a.yy);
+    cout << "\n\n";
+    B.printBoard();
+    this_thread::sleep_for(chrono::seconds(2));
+}
+cout << "\nThat's how you got checkMate\n";
+}
 
 
 
